@@ -91,6 +91,33 @@ async def create_fish(
     return FishResponse.model_validate(fish)
 
 
+@app.post("/fish/{fish_id}/restore-image", response_model=FishResponse)
+async def restore_fish_image(
+    fish_id: UUID,
+    image: UploadFile = File(...),
+    db: Session = Depends(get_db),
+):
+    fish = db.query(Fish).filter(Fish.id == fish_id).first()
+    if not fish:
+        raise HTTPException(status_code=404, detail="Fish not found")
+    if not fish.drawing_data:
+        raise HTTPException(status_code=400, detail="No drawing data available")
+
+    image_bytes = await image.read()
+    if not image_bytes:
+        raise HTTPException(status_code=400, detail="Empty image")
+
+    if fish.image_url:
+        old_path = Path(settings.upload_dir) / fish.image_url.removeprefix("/uploads/")
+        if old_path.is_file():
+            old_path.unlink()
+
+    fish.image_url = save_image(image_bytes, settings.upload_dir)
+    db.commit()
+    db.refresh(fish)
+    return FishResponse.model_validate(fish)
+
+
 @app.post("/fish/{fish_id}/like", response_model=FishResponse)
 def like_fish(fish_id: UUID, db: Session = Depends(get_db)):
     fish = db.query(Fish).filter(Fish.id == fish_id).first()

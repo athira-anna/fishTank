@@ -49,3 +49,20 @@ export async function likeFish(id: string): Promise<Fish> {
   if (!res.ok) throw new Error("Failed to like fish");
   return res.json();
 }
+
+/** Re-upload a PNG recreated from drawing_data and update image_url in the DB. */
+export async function restoreFishImage(id: string, imageBlob: Blob): Promise<Fish> {
+  const form = new FormData();
+  form.append("image", imageBlob, "fish.png");
+
+  const res = await fetch(`${API_BASE}/fish/${id}/restore-image`, {
+    method: "POST",
+    body: form,
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: "Failed to restore fish image" }));
+    throw new Error(err.detail || "Failed to restore fish image");
+  }
+  return res.json();
+}

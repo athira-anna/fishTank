@@ -227,6 +227,14 @@ export default function Aquarium({
     if (selectedFish?.id === updated.id) setSelectedFish(updated);
   }
 
+  const handleFishImageRestored = useCallback((updated: Fish) => {
+    fishMetaRef.current.set(updated.id, updated);
+    setFish((prev) =>
+      prev.map((f) => (f.id === updated.id ? { ...f, image_url: updated.image_url } : f))
+    );
+    if (selectedFish?.id === updated.id) setSelectedFish(updated);
+  }, [selectedFish?.id]);
+
   const hoveredFish = fish.find((f) => f.id === hoveredId);
 
   const renderFish = useCallback(
@@ -240,10 +248,11 @@ export default function Aquarium({
           const meta = fishMetaRef.current.get(id);
           if (meta) setSelectedFish(meta);
         }}
+        onImageRestored={handleFishImageRestored}
         isHovered={hoveredId === f.id}
       />
     ),
-    [hoveredId]
+    [handleFishImageRestored, hoveredId]
   );
 
   return (
