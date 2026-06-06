@@ -86,10 +86,8 @@ export default function OceanAmbience() {
       onClick={toggle}
       aria-label={enabled ? "Mute ocean ambience" : "Play mild ocean ambience"}
       title={enabled ? "Mute ocean sounds" : "Play ocean sounds"}
-      className={`touch-target flex shrink-0 items-center justify-center rounded-full border transition ${
-        enabled
-          ? "border-white/30 bg-white/15 text-white hover:bg-white/25"
-          : "border-white/20 bg-white/8 text-white/60 hover:bg-white/15 hover:text-white/90"
+      className={`touch-target flex shrink-0 items-center justify-center transition ${
+        enabled ? "text-white hover:text-white/90" : "text-white/60 hover:text-white/90"
       }`}
     >
       {enabled ? (
