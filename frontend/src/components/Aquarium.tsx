@@ -263,14 +263,14 @@ export default function Aquarium({
           </div>
           <OceanAmbience />
         </div>
-        <div className="mt-2 flex items-center justify-between gap-2 sm:mt-3">
+        <div className="mt-2 flex items-center justify-center gap-2 sm:mt-3 sm:justify-between">
           <TankStats stats={stats} />
           <button
             type="button"
             onClick={() => setShowCreator(true)}
             className="hidden rounded-full bg-white/95 px-5 py-2.5 text-sm font-bold text-teal-700 shadow-lg transition hover:bg-white hover:shadow-xl active:scale-95 sm:inline-flex"
           >
-            + Add Your Fish
+            + Fish
           </button>
         </div>
       </header>
@@ -314,14 +314,16 @@ export default function Aquarium({
         )}
       </AnimatePresence>
 
-      <button
-        type="button"
-        onClick={() => setShowCreator(true)}
-        className="safe-bottom fixed bottom-4 left-1/2 z-30 -translate-x-1/2 rounded-full bg-white px-6 py-3.5 text-sm font-bold text-teal-700 shadow-xl transition active:scale-95 sm:hidden"
-        aria-label="Add your fish"
-      >
-        + Add Your Fish
-      </button>
+      <div className="safe-bottom pointer-events-none fixed inset-x-0 bottom-4 z-30 flex justify-center sm:hidden">
+        <button
+          type="button"
+          onClick={() => setShowCreator(true)}
+          className="pointer-events-auto rounded-full bg-white px-5 py-3 text-sm font-bold text-teal-700 shadow-xl transition active:scale-95"
+          aria-label="Add fish"
+        >
+          + Fish
+        </button>
+      </div>
 
       <FishCreatorModal
         open={showCreator}
