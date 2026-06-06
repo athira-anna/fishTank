@@ -1,0 +1,326 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+/* ─── Ocean reef background motion ─── */
+
+@keyframes ocean-reef-sway {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  20% {
+    transform: translate(-10px, 5px) rotate(0.35deg);
+  }
+  45% {
+    transform: translate(8px, -4px) rotate(-0.25deg);
+  }
+  70% {
+    transform: translate(-6px, 3px) rotate(0.2deg);
+  }
+}
+
+.ocean-reef-sway {
+  animation: ocean-reef-sway 14s ease-in-out infinite;
+  transform-origin: 50% 85%;
+  will-change: transform;
+}
+
+@keyframes ocean-reef-foreground-sway {
+  0%, 100% {
+    transform: translateX(0) skewX(0deg);
+  }
+  33% {
+    transform: translateX(-14px) skewX(0.4deg);
+  }
+  66% {
+    transform: translateX(12px) skewX(-0.35deg);
+  }
+}
+
+.ocean-reef-foreground-sway {
+  animation: ocean-reef-foreground-sway 9s ease-in-out infinite;
+  transform-origin: bottom center;
+  will-change: transform;
+}
+
+@keyframes ocean-caustics-drift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.35;
+  }
+  33% {
+    transform: translate(25px, -12px) scale(1.04);
+    opacity: 0.5;
+  }
+  66% {
+    transform: translate(-18px, 8px) scale(0.98);
+    opacity: 0.4;
+  }
+}
+
+.ocean-caustics {
+  background:
+    radial-gradient(ellipse 140px 80px at 25% 70%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(ellipse 100px 60px at 55% 75%, rgba(255,255,255,0.18), transparent),
+    radial-gradient(ellipse 90px 55px at 78% 68%, rgba(255,255,255,0.15), transparent),
+    radial-gradient(ellipse 120px 70px at 40% 55%, rgba(255,255,255,0.12), transparent);
+  animation: ocean-caustics-drift 11s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes ocean-water-shimmer {
+  0%, 100% { opacity: 0.15; transform: translateX(0); }
+  50% { opacity: 0.28; transform: translateX(20px); }
+}
+
+.ocean-water-shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255,255,255,0.06) 48%,
+    transparent 56%
+  );
+  animation: ocean-water-shimmer 7s ease-in-out infinite;
+}
+
+@keyframes ocean-surface-light-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+
+.ocean-surface-light {
+  animation: ocean-surface-light-pulse 8s ease-in-out infinite;
+}
+
+/* Ambient background bubbles (infinite loop) */
+@keyframes ocean-ambient-bubble-rise {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 0;
+  }
+  8% { opacity: 0.55; }
+  25% {
+    transform: translate(calc(var(--bubble-drift, 0px) * 0.3), -18vh) scale(0.85);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translate(calc(var(--bubble-drift, 0px) * 0.7), -38vh) scale(1);
+    opacity: 0.35;
+  }
+  75% {
+    transform: translate(calc(var(--bubble-drift, 0px) * 1.1), -58vh) scale(1.05);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translate(var(--bubble-drift, 0px), -78vh) scale(1.1);
+    opacity: 0;
+  }
+}
+
+.ocean-ambient-bubble {
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.65), rgba(255,255,255,0.1) 65%, transparent);
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 0 4px rgba(255,255,255,0.12);
+  animation: ocean-ambient-bubble-rise linear infinite;
+  z-index: 1;
+}
+
+/* ─── Fish-layer bubbles ─── */
+
+@keyframes tank-bubble-rise {
+  0% {
+    transform: translate(0, 0) scale(0.4);
+    opacity: 0;
+  }
+  5% { opacity: 0.65; }
+  20% {
+    transform: translate(calc(var(--wobble, 0px) * 0.2), calc(var(--rise, 500px) * -0.18)) scale(0.8);
+    opacity: 0.55;
+  }
+  45% {
+    transform: translate(calc(var(--wobble, 0px) * 0.55), calc(var(--rise, 500px) * -0.42)) scale(0.95);
+    opacity: 0.45;
+  }
+  70% {
+    transform: translate(calc(var(--wobble, 0px) * 0.85), calc(var(--rise, 500px) * -0.68)) scale(1.02);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(var(--wobble, 0px), calc(var(--rise, 500px) * -1)) scale(1.08);
+    opacity: 0;
+  }
+}
+
+.tank-bubble {
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.75), rgba(255,255,255,0.18) 60%, rgba(255,255,255,0.05));
+  border: 1px solid rgba(255,255,255,0.25);
+  animation: tank-bubble-rise ease-in-out forwards;
+  box-shadow: 0 0 4px rgba(255,255,255,0.2);
+}
+
+@keyframes tank-bubble-loop-rise {
+  0% {
+    transform: translate(0, 0) scale(0.45);
+    opacity: 0;
+  }
+  6% { opacity: 0.6; }
+  22% {
+    transform: translate(calc(var(--wobble, 0px) * 0.25), calc(var(--rise, 500px) * -0.2)) scale(0.82);
+  }
+  48% {
+    transform: translate(calc(var(--wobble, 0px) * 0.6), calc(var(--rise, 500px) * -0.45)) scale(0.98);
+    opacity: 0.4;
+  }
+  74% {
+    transform: translate(calc(var(--wobble, 0px) * 0.9), calc(var(--rise, 500px) * -0.72)) scale(1.04);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translate(var(--wobble, 0px), calc(var(--rise, 500px) * -1)) scale(1.1);
+    opacity: 0;
+  }
+}
+
+.tank-bubble-loop {
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.7), rgba(255,255,255,0.15) 60%, transparent);
+  border: 1px solid rgba(255,255,255,0.2);
+  animation: tank-bubble-loop-rise ease-in-out infinite;
+  box-shadow: 0 0 3px rgba(255,255,255,0.15);
+}
+
+@keyframes float-up {
+  0% { transform: translateY(100vh) scale(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.35; }
+  100% { transform: translateY(-30px) scale(1); opacity: 0; }
+}
+
+.bubble {
+  animation: float-up linear infinite;
+  bottom: -10px;
+}
+
+@keyframes plant-sway {
+  0%, 100% { transform: rotate(-2deg) translateX(-2px); }
+  33% { transform: rotate(1.5deg) translateX(2px); }
+  66% { transform: rotate(-1deg) translateX(0); }
+}
+
+.plant-sway {
+  animation: plant-sway 4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes plant-sway-slow {
+  0%, 100% { transform: rotate(-1.5deg) skewX(-1deg); }
+  50% { transform: rotate(1.5deg) skewX(1deg); }
+}
+
+.plant-sway-slow {
+  animation: plant-sway-slow 6s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes kelp-sway {
+  0%, 100% { transform: rotate(-4deg) translateX(-3px); }
+  25% { transform: rotate(2deg) translateX(4px); }
+  50% { transform: rotate(-2deg) translateX(-1px); }
+  75% { transform: rotate(3deg) translateX(2px); }
+}
+
+.kelp-sway {
+  animation: kelp-sway 5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes grass-sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(4deg); }
+}
+
+.grass-sway {
+  animation: grass-sway 3.5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes caustics-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.12; }
+  33% { transform: translate(30px, -15px) scale(1.05); opacity: 0.16; }
+  66% { transform: translate(-20px, 10px) scale(0.98); opacity: 0.1; }
+}
+
+.caustics-drift {
+  animation: caustics-drift 14s ease-in-out infinite;
+}
+
+@keyframes sea-fan-sway {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1.5deg); }
+}
+
+.sea-fan-sway {
+  animation: sea-fan-sway 7s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* Water haze drift */
+@keyframes tank-haze-drift {
+  0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+  50% { transform: translate(15px, -8px); opacity: 0.45; }
+}
+
+.tank-haze {
+  background: radial-gradient(ellipse 60% 40% at 30% 40%, rgba(255,255,255,0.06), transparent),
+              radial-gradient(ellipse 50% 35% at 70% 60%, rgba(255,255,255,0.04), transparent);
+  animation: tank-haze-drift 18s ease-in-out infinite;
+}
+
+/* Floating particles */
+@keyframes tank-particle-drift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(var(--drift, 10px), -8px); }
+  50% { transform: translate(calc(var(--drift, 10px) * -0.5), -18px); }
+  75% { transform: translate(calc(var(--drift, 10px) * 0.8), -10px); }
+  100% { transform: translate(0, 0); }
+}
+
+.tank-particle {
+  animation: tank-particle-drift ease-in-out infinite;
+}
+
+/* Sunlight rays */
+.sun-ray {
+  top: -50px;
+  height: 120%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.18),
+    rgba(255, 255, 255, 0.06) 40%,
+    transparent 85%
+  );
+  filter: blur(25px);
+  transform-origin: top center;
+  animation: sun-ray-shimmer 10s ease-in-out infinite;
+}
+
+@keyframes sun-ray-shimmer {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
