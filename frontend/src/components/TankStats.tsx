@@ -8,17 +8,21 @@ interface TankStatsProps {
 
 export default function TankStats({ stats }: TankStatsProps) {
   return (
-    <div className="flex gap-6 text-white">
+    <div className="flex items-center gap-3 text-white sm:gap-6">
       <div className="text-center">
-        <div className="text-2xl font-bold tabular-nums drop-shadow-sm">{stats.total_fish}</div>
-        <div className="text-xs uppercase tracking-wider text-white/60">
-          Fish in ocean
+        <div className="text-lg font-bold tabular-nums drop-shadow-sm sm:text-2xl">
+          {stats.total_fish}
+        </div>
+        <div className="text-[10px] uppercase tracking-wider text-white/60 sm:text-xs">
+          Fish
         </div>
       </div>
-      <div className="h-10 w-px bg-white/25" />
+      <div className="h-8 w-px bg-white/25 sm:h-10" />
       <div className="text-center">
-        <div className="text-2xl font-bold tabular-nums drop-shadow-sm">{stats.total_creators}</div>
-        <div className="text-xs uppercase tracking-wider text-white/60">
+        <div className="text-lg font-bold tabular-nums drop-shadow-sm sm:text-2xl">
+          {stats.total_creators}
+        </div>
+        <div className="text-[10px] uppercase tracking-wider text-white/60 sm:text-xs">
           Creators
         </div>
       </div>

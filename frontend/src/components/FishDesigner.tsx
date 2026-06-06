@@ -222,7 +222,7 @@ const FishDesigner = forwardRef<FishDesignerHandle, FishDesignerProps>(
               key={t.id}
               type="button"
               onClick={() => setTool(t.id)}
-              className={`rounded-lg px-2.5 py-1 text-xs font-medium transition ${
+              className={`rounded-lg px-3 py-2 text-xs font-medium transition sm:px-2.5 sm:py-1 ${
                 tool === t.id ? "bg-blue-500 text-white" : "bg-white text-slate-600 hover:bg-slate-100"
               }`}
             >
@@ -249,7 +249,7 @@ const FishDesigner = forwardRef<FishDesignerHandle, FishDesignerProps>(
                 setColor(c);
                 if (tool === "fill") setColors((prev) => ({ ...prev, [fillTarget]: c }));
               }}
-              className={`h-6 w-6 rounded-full border-2 transition hover:scale-110 ${
+              className={`h-8 w-8 rounded-full border-2 transition hover:scale-110 sm:h-6 sm:w-6 ${
                 color === c ? "border-blue-500 scale-110" : "border-white shadow-sm"
               }`}
               style={{ backgroundColor: c }}

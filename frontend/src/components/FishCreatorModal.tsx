@@ -76,14 +76,14 @@ export default function FishCreatorModal({ open, onClose, onRelease }: FishCreat
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm sm:items-center sm:p-4"
       onClick={handleClose}
     >
       <div
-        className="flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl"
+        className="flex max-h-[96dvh] w-full max-w-2xl flex-col overflow-hidden rounded-t-2xl bg-white shadow-2xl sm:max-h-[92vh] sm:rounded-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+        <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3 sm:px-5 sm:py-4">
           <div>
             <h2 className="text-lg font-bold text-slate-800">Design Your Fish</h2>
             <p className="text-xs text-slate-500">Pick a shape, color it, and release!</p>
@@ -91,13 +91,14 @@ export default function FishCreatorModal({ open, onClose, onRelease }: FishCreat
           <button
             type="button"
             onClick={handleClose}
-            className="rounded-full p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+            className="touch-target flex items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+            aria-label="Close"
           >
             ✕
           </button>
         </div>
 
-        <div className="overflow-y-auto px-5 py-4">
+        <div className="overflow-y-auto px-4 py-3 sm:px-5 sm:py-4">
           <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
             Choose a shape
           </p>
@@ -157,12 +158,12 @@ export default function FishCreatorModal({ open, onClose, onRelease }: FishCreat
           )}
         </div>
 
-        <div className="border-t border-slate-100 px-5 py-4">
+        <div className="safe-bottom border-t border-slate-100 px-4 py-3 sm:px-5 sm:py-4">
           <button
             type="button"
             onClick={handleRelease}
             disabled={!name.trim()}
-            className="w-full rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 py-3 text-sm font-bold text-white shadow-md transition hover:from-blue-600 hover:to-cyan-600 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 py-3.5 text-sm font-bold text-white shadow-md transition hover:from-blue-600 hover:to-cyan-600 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:py-3"
           >
             🐟 Release Fish into the Ocean
           </button>

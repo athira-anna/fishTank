@@ -67,6 +67,15 @@ export default function Aquarium({
   const previewUrlRef = useRef<string | null>(null);
   const releasePreviewRef = useRef<Map<string, string>>(new Map());
   const releaseAddedRef = useRef(false);
+  const [canHover, setCanHover] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const update = () => setCanHover(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     const map = new Map<string, Fish>();
@@ -88,7 +97,11 @@ export default function Aquarium({
     }
     updateSize();
     window.addEventListener("resize", updateSize);
-    return () => window.removeEventListener("resize", updateSize);
+    window.addEventListener("orientationchange", updateSize);
+    return () => {
+      window.removeEventListener("resize", updateSize);
+      window.removeEventListener("orientationchange", updateSize);
+    };
   }, []);
 
   useEffect(() => {
@@ -234,24 +247,28 @@ export default function Aquarium({
   );
 
   return (
-    <div className="relative flex h-screen flex-col overflow-hidden bg-[#0b3e5f]">
+    <div className="relative flex h-dvh flex-col overflow-hidden bg-[#0b3e5f]">
       <header
-        className="relative z-20 flex items-center justify-between px-6 py-4"
+        className="safe-top relative z-20 shrink-0 px-3 pb-2 pt-2 sm:px-6 sm:py-4"
         style={{
           background: "linear-gradient(180deg, rgba(0,30,55,0.55) 0%, transparent 100%)",
         }}
       >
-        <div>
-          <h1 className="text-2xl font-bold text-white drop-shadow-md">🌊 Living Ocean</h1>
-          <p className="text-sm text-white/70">A shared underwater world</p>
-        </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-between gap-2">
+          <div className="min-w-0">
+            <h1 className="truncate text-lg font-bold text-white drop-shadow-md sm:text-2xl">
+              🌊 Living Ocean
+            </h1>
+            <p className="hidden text-sm text-white/70 sm:block">A shared underwater world</p>
+          </div>
           <OceanAmbience />
+        </div>
+        <div className="mt-2 flex items-center justify-between gap-2 sm:mt-3">
           <TankStats stats={stats} />
           <button
             type="button"
             onClick={() => setShowCreator(true)}
-            className="rounded-full bg-white/95 px-6 py-2.5 text-sm font-bold text-teal-700 shadow-lg transition hover:bg-white hover:shadow-xl active:scale-95"
+            className="hidden rounded-full bg-white/95 px-5 py-2.5 text-sm font-bold text-teal-700 shadow-lg transition hover:bg-white hover:shadow-xl active:scale-95 sm:inline-flex"
           >
             + Add Your Fish
           </button>
@@ -268,14 +285,14 @@ export default function Aquarium({
         {fish.map(renderFish)}
 
         {fish.length === 0 && !releaseVisual && (
-          <div className="absolute inset-0 z-[10] flex flex-col items-center justify-center text-white/55">
-            <div className="mb-4 text-6xl">🐟</div>
-            <p className="text-xl font-medium">The ocean is quiet...</p>
+          <div className="absolute inset-0 z-[10] flex flex-col items-center justify-center px-6 text-center text-white/55">
+            <div className="mb-3 text-5xl sm:mb-4 sm:text-6xl">🐟</div>
+            <p className="text-lg font-medium sm:text-xl">The ocean is quiet...</p>
             <p className="mt-2 text-sm">Be the first to release a fish</p>
           </div>
         )}
 
-        {hoveredFish && (
+        {hoveredFish && canHover && (
           <FishTooltip fish={hoveredFish} x={hoveredFish.x} y={hoveredFish.y - FISH_HEIGHT / 2} />
         )}
 
@@ -296,6 +313,15 @@ export default function Aquarium({
           <FishModal fish={selectedFish} onClose={() => setSelectedFish(null)} onLike={handleLike} />
         )}
       </AnimatePresence>
+
+      <button
+        type="button"
+        onClick={() => setShowCreator(true)}
+        className="safe-bottom fixed bottom-4 left-1/2 z-30 -translate-x-1/2 rounded-full bg-white px-6 py-3.5 text-sm font-bold text-teal-700 shadow-xl transition active:scale-95 sm:hidden"
+        aria-label="Add your fish"
+      >
+        + Add Your Fish
+      </button>
 
       <FishCreatorModal
         open={showCreator}

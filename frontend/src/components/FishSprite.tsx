@@ -29,17 +29,18 @@ export default function FishSprite({
   const displayOpacity = fish.isSettling ? Math.max(opacity, 0.92) : opacity;
   const w = FISH_WIDTH * scale;
   const h = FISH_HEIGHT * scale;
-  const left = fish.x - w / 2;
-  const top = fish.y - h / 2;
+  const hitPad = 14;
+  const left = fish.x - (w + hitPad * 2) / 2;
+  const top = fish.y - (h + hitPad * 2) / 2;
 
   return (
     <div
-      className="absolute cursor-pointer"
+      className="absolute flex cursor-pointer touch-manipulation select-none items-center justify-center"
       style={{
         left,
         top,
-        width: w,
-        height: h,
+        width: w + hitPad * 2,
+        height: h + hitPad * 2,
         zIndex: fish.isSettling ? 38 : zIndex,
         transition: fish.isSettling
           ? "left 0.14s linear, top 0.14s linear, opacity 0.35s ease-out"
@@ -49,6 +50,10 @@ export default function FishSprite({
       onMouseLeave={() => onHover(null)}
       onClick={() => onClick(fish.id)}
     >
+      <div
+        className="relative"
+        style={{ width: w, height: h }}
+      >
       {/* Underwater shadow */}
       <div
         className="pointer-events-none absolute left-1/2"
@@ -96,7 +101,7 @@ export default function FishSprite({
 
       {fish.depth > 0.5 && !fish.isHiding && !fish.isSettling && (
         <div
-          className="absolute left-1/2 top-full mt-0.5 whitespace-nowrap text-xs font-medium text-white/70 drop-shadow-sm"
+          className="absolute left-1/2 top-full mt-0.5 max-w-[120px] truncate whitespace-nowrap text-xs font-medium text-white/70 drop-shadow-sm sm:max-w-none"
           style={{
             fontSize: `${10 + fish.depth * 4}px`,
             transform: "translateX(-50%)",
@@ -105,6 +110,7 @@ export default function FishSprite({
           {fish.name}
         </div>
       )}
+      </div>
     </div>
   );
 }

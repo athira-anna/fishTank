@@ -31,7 +31,7 @@ function TankPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-gradient-to-b from-sky-900 to-blue-600">
+      <div className="flex h-dvh items-center justify-center bg-gradient-to-b from-sky-900 to-blue-600">
         <div className="text-center text-white">
           <div className="mb-4 text-5xl animate-bounce">🐠</div>
           <p className="text-lg font-medium">Diving into the ocean...</p>
@@ -62,7 +62,7 @@ export default function Home() {
   return (
     <Suspense
       fallback={
-        <div className="flex h-screen items-center justify-center bg-gradient-to-b from-sky-900 to-blue-600">
+        <div className="flex h-dvh items-center justify-center bg-gradient-to-b from-sky-900 to-blue-600">
           <div className="text-white text-lg">Loading...</div>
         </div>
       }
